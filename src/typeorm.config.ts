@@ -1,25 +1,16 @@
-import * as dotenv from "dotenv";
 import * as path from "path";
-import { DataSource, DataSourceOptions } from "typeorm";
+import { ConfigService } from "@nestjs/config";
+import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 
-const envPath = path.resolve(__dirname, "../.env");
-dotenv.config({ path: envPath });
-
-export const typeormOptions: DataSourceOptions = {
+export const getTypeormModuleOptions = (
+  configService: ConfigService,
+): TypeOrmModuleOptions => ({
   type: "postgres",
-  port: +process.env.TYPEORM_PORT,
-  host: process.env.TYPEORM_HOST,
-  database: process.env.TYPEORM_DATABASE,
-  username: process.env.TYPEORM_USERNAME,
-  password: process.env.TYPEORM_PASSWORD,
-  migrationsTableName: "migrations",
-  entities: [path.resolve(__dirname, "database/**/*.entity{.ts,.js}")],
-  migrations: [path.resolve(__dirname, "database/migrations/**/*{.ts,.js}")],
+  port: +configService.get<number>("TYPEORM_PORT"),
+  host: configService.get("TYPEORM_HOST"),
+  database: configService.get("TYPEORM_DATABASE"),
+  username: configService.get("TYPEORM_USERNAME"),
+  password: configService.get("TYPEORM_PASSWORD"),
+  entities: [path.resolve(__dirname, "/**/*.entity{.ts,.js}")],
   synchronize: false,
-};
-
-console.log(typeormOptions, __dirname);
-
-export const dataSource = new DataSource(typeormOptions);
-
-export default typeormOptions;
+});

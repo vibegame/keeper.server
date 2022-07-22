@@ -1,4 +1,4 @@
-const TypeormCli = require("./typeorm-cli");
+const TypeormCli = require("./libs/typeorm-cli");
 
 async function run() {
   const typeormCli = new TypeormCli();

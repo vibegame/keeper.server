@@ -1,7 +1,7 @@
 const path = require("path");
 const prompt = require("prompt");
-const { TYPEORM_CONFIG_PATH, MIGRATIONS_PATH } = require("../consts");
-const { execAsync } = require("../shell");
+const { TYPEORM_CONFIG_PATH, MIGRATIONS_PATH } = require("../../consts");
+const { execAsync } = require("./utils/shell");
 
 class TypeormCli {
   async cli(command) {
@@ -21,10 +21,9 @@ class TypeormCli {
     await this.cli("schema:drop");
   }
 
-  async prettierMigrations() {
+  async formatMigrations() {
     try {
-      const migrationsPath = path.relative(process.cwd(), MIGRATIONS_PATH);
-      await execAsync(`npx prettier --write ${migrationsPath}`);
+      await execAsync(`npx prettier --write ${MIGRATIONS_PATH}`);
     } catch (e) {
       console.log(e);
     }
@@ -42,7 +41,7 @@ class TypeormCli {
       const migrationPath = path.resolve(MIGRATIONS_PATH, result.migrationName);
 
       await this.cli(`migration:generate ${migrationPath}`);
-      await this.prettierMigrations();
+      await this.formatMigrations();
     } catch (e) {
       console.log(e);
     }
