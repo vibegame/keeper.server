@@ -1,16 +1,15 @@
-import * as path from "path";
-import { ConfigService } from "@nestjs/config";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import "dotenv/config";
 
-export const getTypeormModuleOptions = (
-  configService: ConfigService,
-): TypeOrmModuleOptions => ({
+console.log(__dirname + "/**/*.entity{.ts,.js}");
+
+export const typeormModuleOptions: TypeOrmModuleOptions = {
   type: "postgres",
-  port: +configService.get<number>("TYPEORM_PORT"),
-  host: configService.get("TYPEORM_HOST"),
-  database: configService.get("TYPEORM_DATABASE"),
-  username: configService.get("TYPEORM_USERNAME"),
-  password: configService.get("TYPEORM_PASSWORD"),
-  entities: [path.resolve(__dirname, "/**/*.entity{.ts,.js}")],
+  port: parseInt(process.env.TYPEORM_PORT),
+  host: process.env.TYPEORM_HOST,
+  database: process.env.TYPEORM_DATABASE,
+  username: process.env.TYPEORM_USERNAME,
+  password: process.env.TYPEORM_PASSWORD,
+  entities: [__dirname + "/**/*.entity{.ts,.js}"],
   synchronize: false,
-});
+};

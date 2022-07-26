@@ -1,0 +1,16 @@
+module.exports = {
+  name: "default",
+  type: "postgres",
+  port: +process.env.TYPEORM_PORT,
+  host: process.env.TYPEORM_HOST,
+  database: process.env.TYPEORM_DATABASE,
+  username: process.env.TYPEORM_USERNAME,
+  password: process.env.TYPEORM_PASSWORD,
+  migrationsTableName: "migrations",
+  seeds: ["src/database/seeds/**/*{.ts,.js}"],
+  factories: ["src/database/factories/**/*{.ts,.js}"],
+  entities: ["src/database/entities/**/*{.ts,.js}"],
+  defaultSeeder: "RootSeeder",
+  synchronize: true,
+  logging: true,
+};
